@@ -39,15 +39,15 @@ export default function Testimonials() {
       <div className="absolute inset-0 bg-white/90"></div>
 
       {/* Main Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-start justify-between gap-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex flex-col md:flex-row items-start justify-between gap-6 sm:gap-8 md:gap-10">
         {/* Left: Text Section */}
-        <div className="md:w-1/2">
-          <p className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-2">
+        <div className="md:w-1/2 w-full text-center md:text-left">
+          <p className="text-xs sm:text-sm uppercase tracking-widest text-red-500 font-semibold mb-2">
             — Our Testimonials
           </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-800 leading-tight">
-            What They’re <br />
-            Talking About <br />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-800 leading-tight">
+            What They&apos;re <br className="hidden sm:block" />
+            Talking About <br className="hidden sm:block" />
             Company
           </h2>
         </div>
@@ -61,28 +61,28 @@ export default function Testimonials() {
             loop={true}
             spaceBetween={30}
             slidesPerView={1}
-            className="pb-12"
+            className="pb-12 sm:pb-16"
           >
             {testimonials.map((item, index) => (
               <SwiperSlide key={index}>
-                <div className="relative bg-white shadow-xl rounded-lg p-8 md:p-10">
-                  <p className="text-gray-600 text-lg mb-6">{item.text}</p>
+                <div className="relative bg-white shadow-xl rounded-lg p-6 sm:p-8 md:p-10 mb-8 sm:mb-12">
+                  <p className="text-gray-600 text-base sm:text-lg mb-4 sm:mb-6">{item.text}</p>
 
-                  <h3 className="text-xl font-bold text-red-600">
+                  <h3 className="text-lg sm:text-xl font-bold text-red-600">
                     {item.name}
                   </h3>
-                  <p className="text-sm font-semibold text-blue-800 uppercase tracking-wide">
+                  <p className="text-xs sm:text-sm font-semibold text-blue-800 uppercase tracking-wide">
                     {item.role}
                   </p>
 
                   {/* Floating User Image */}
-                  <div className="absolute -bottom-10 right-10 border-2 border-red-600 p-2 rounded-md bg-white">
+                  <div className="absolute -bottom-6 sm:-bottom-8 md:-bottom-10 right-4 sm:right-6 md:right-10 border-2 border-red-600 p-1.5 sm:p-2 rounded-md bg-white">
                     <Image
                       src={item.img}
                       alt={item.name}
-                      width={60}
-                      height={60}
-                      className="object-contain"
+                      width={50}
+                      height={50}
+                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-[60px] md:h-[60px] object-contain"
                     />
                   </div>
                 </div>

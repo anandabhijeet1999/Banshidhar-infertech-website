@@ -14,19 +14,19 @@ export default function EquipmentsPage() {
       <div className="absolute inset-0 bg-black/50"></div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <h1 className="text-4xl md:text-6xl font-bold text-white">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">
           Equipment Details
         </h1>
       </div>
     </section>
 
       {/* Equipment Sections */}
-      <section className="max-w-6xl mx-auto px-6 py-12 md:py-16 space-y-12 md:space-y-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 space-y-8 sm:space-y-12 md:space-y-16">
         {equipmentItems.map((item, index) => (
           <article
             key={item.title + index}
-            className="grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+            className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center"
           >
             {/* Image */}
             <div className={`${index % 2 === 1 ? "md:order-2" : ""}`}>
@@ -46,16 +46,16 @@ export default function EquipmentsPage() {
 
             {/* Specs */}
             <div className={`${index % 2 === 1 ? "md:order-1" : ""}`}>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-[#1E237E] mb-4 uppercase">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#1E237E] mb-3 sm:mb-4 uppercase">
                 {item.title}
               </h2>
-              <dl className="space-y-3">
+              <dl className="space-y-2 sm:space-y-3">
                 {item.specs.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-12">
-                    <dt className="col-span-6 md:col-span-5 font-semibold text-gray-800">
+                  <div key={spec.label} className="grid grid-cols-12 gap-2">
+                    <dt className="col-span-6 md:col-span-5 font-semibold text-gray-800 text-sm sm:text-base">
                       {spec.label}
                     </dt>
-                    <dd className="col-span-6 md:col-span-7 text-[#D91F26] font-semibold">
+                    <dd className="col-span-6 md:col-span-7 text-[#D91F26] font-semibold text-sm sm:text-base">
                       {spec.value}
                     </dd>
                   </div>

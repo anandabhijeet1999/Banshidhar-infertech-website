@@ -1,58 +1,46 @@
-import { Phone, MessageCircle } from "lucide-react";
+"use client";
+
+import { Phone, MessageCircle, Mail } from "lucide-react";
 
 export default function SidebarButtons() {
   return (
-    <div
-      className="
-        fixed z-50 flex flex-row space-x-2
-        right-[-140px] top-1/2 -translate-y-1/2 rotate-90
-        transition-all duration-300 ease-in-out
-
-        /* Laptop/Desktop (rotated, side position) */
-        md:right-[-120px] md:rotate-90
-        lg:right-[-130px]
-        xl:right-[-140px]
-
-        /* Mobile/Tablet (bottom right vertical stack) */
-        sm:rotate-0 sm:right-4 sm:bottom-6 sm:top-auto sm:flex-col sm:space-x-0 sm:space-y-2
-      "
-    >
-      {/* Enquiry Button */}
+    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex flex-col">
+      {/* Enquiry Button - Red */}
       <a
         href="#enquiry"
-        className="
-          bg-red-600 text-white px-3 py-2 rounded-t-md
-          hover:bg-red-700 flex items-center gap-2
-          sm:rounded-md sm:w-36 sm:justify-center
-        "
+        className="bg-red-600 text-white px-2 py-6 rounded-tl-md hover:bg-red-700 flex flex-col items-center justify-center gap-2 transition-colors shadow-lg w-14"
+        title="Enquiry"
       >
-        Enquiry
+        <Mail className="w-5 h-5" />
+        <span className="text-[10px] font-medium" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
+          Enquiry
+        </span>
       </a>
 
-      {/* WhatsApp Button */}
+      {/* WhatsApp Button - Green */}
       <a
         href="https://wa.me/916202557765"
         target="_blank"
         rel="noopener noreferrer"
-        className="
-          bg-green-600 text-white px-3 py-2 rounded-t-md
-          hover:bg-green-700 flex items-center gap-2
-          sm:rounded-md sm:w-36 sm:justify-center
-        "
+        className="bg-green-600 text-white px-2 py-6 hover:bg-green-700 flex flex-col items-center justify-center gap-2 transition-colors shadow-lg w-14"
+        title="WhatsApp"
       >
-        <MessageCircle className="w-4 h-4" /> WhatsApp
+        <MessageCircle className="w-5 h-5" />
+        <span className="text-[10px] font-medium" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
+          Whatsapp
+        </span>
       </a>
 
-      {/* Phone Button */}
+      {/* Phone Button - Light Blue */}
       <a
         href="tel:+916202557765"
-        className="
-          bg-sky-600 text-white px-3 py-2 rounded-t-md
-          hover:bg-sky-700 flex items-center gap-2
-          sm:rounded-md sm:w-36 sm:justify-center
-        "
+        className="bg-sky-500 text-white px-2 py-6 rounded-bl-md hover:bg-sky-600 flex flex-col items-center justify-center gap-2 transition-colors shadow-lg w-14"
+        title="Phone"
       >
-        <Phone className="w-4 h-4" /> Phone
+        <Phone className="w-5 h-5" />
+        <span className="text-[10px] font-medium" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
+          Phone
+        </span>
       </a>
     </div>
   );

@@ -41,14 +41,14 @@ export default function Footer() {
       <div className="absolute inset-0 bg-black/80"></div>
 
       {/* Main Footer Content */}
-      <div className="relative z-10 container mx-auto px-6 flex flex-wrap justify-between gap-10">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 flex flex-wrap justify-between gap-6 sm:gap-8 md:gap-10">
         {/* Logo & Social Icons */}
-        <div className="flex flex-col items-center md:items-start space-y-6">
+        <div className="flex flex-col items-center md:items-start space-y-4 sm:space-y-6 w-full md:w-auto">
           {/* Logo */}
           <img
             src="/assets/icons/logo.png"
             alt="Banshidhar "
-            className="w-36"
+            className="w-28 sm:w-32 md:w-36"
           />
 
           {/* Social Icons */}
@@ -89,9 +89,9 @@ export default function Footer() {
         </div>
 
         {/* Links */}
-        <div>
-          <h2 className="text-xl font-bold mb-4">Links</h2>
-          <ul className="space-y-2 text-gray-300">
+        <div className="w-full sm:w-auto text-center md:text-left">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Links</h2>
+          <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
             <li>
               <a href="#" className="hover:text-red-500">
                 About Us
@@ -121,9 +121,9 @@ export default function Footer() {
         </div>
 
         {/* Contact */}
-        <div>
-          <h2 className="text-xl font-bold mb-4">Contact</h2>
-          <ul className="space-y-3 text-gray-300">
+        <div className="w-full sm:w-auto text-center md:text-left">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contact</h2>
+          <ul className="space-y-2 sm:space-y-3 text-gray-300 text-sm sm:text-base">
             <li>
               📞{" "}
               <a
@@ -136,10 +136,10 @@ export default function Footer() {
             <li>
               ✉️{" "}
               <a
-                href="mailto:enquiry@slgroupco.com"
+                href="mailto:enquiry@banshidharinfratech.com"
                 className="hover:text-red-500"
               >
-                enquiry@slgroupco.com
+                enquiry@banshidharinfratech.com
               </a>
             </li>
             <li>
@@ -151,9 +151,9 @@ export default function Footer() {
         </div>
 
         {/* Services */}
-        <div>
-          <h2 className="text-xl font-bold mb-4">Services</h2>
-          <ul className="space-y-2 text-gray-300">
+        <div className="w-full sm:w-auto text-center md:text-left">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Services</h2>
+          <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
             <li>Piling Foundation Services</li>
             <li>Piling Rig Rental Services</li>
             <li>Boom Lift Rental Services</li>
@@ -176,7 +176,7 @@ export default function Footer() {
       {isVisible && (
         <div
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 w-12 h-12 flex items-center justify-center bg-red-600 text-white text-2xl rounded-full shadow-lg hover:bg-red-700 cursor-pointer transition-all duration-300"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-red-600 text-white text-xl sm:text-2xl rounded-full shadow-lg hover:bg-red-700 cursor-pointer transition-all duration-300 z-50"
         >
           ↑
         </div>

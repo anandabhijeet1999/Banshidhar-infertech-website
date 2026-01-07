@@ -23,7 +23,7 @@ const tabs: Tab[] = [
     title: "MISSION",
     content:
       "To provide our clients with the ability to complete in a safe, economical, timely and efficient manner while ensuring a consistently positive and professional experience.",
-    image: "/assets/icons/slquality2.png",
+    image: "/assets/images/vis2.jpg",
   },
   {
     id: "quality",
@@ -43,12 +43,12 @@ export default function VisionTabs() {
     <section className="py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         {/* Tabs Header */}
-        <div className="flex flex-wrap shadow-md ">
+        <div className="flex flex-wrap shadow-md">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 text-center font-bold py-4 text-sm sm:text-base transition-all duration-300 ${
+              className={`flex-1 min-w-[120px] text-center font-bold py-3 sm:py-4 text-xs sm:text-sm md:text-base transition-all duration-300 ${
                 activeTab === tab.id
                   ? "bg-white text-[#1A237E]"
                   : "bg-[#1A237E] text-white"
@@ -60,8 +60,8 @@ export default function VisionTabs() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-[#FFF8F8] mt-6 rounded-md p-6 px-40 flex flex-col sm:flex-row items-center gap-20 shadow-sm">
-          <div className="flex-shrink-0 w-60 h-60 relative">
+        <div className="bg-[#FFF8F8] mt-6 rounded-md p-4 sm:p-6 md:px-8 lg:px-12 xl:px-20 flex flex-col sm:flex-row items-center gap-6 sm:gap-10 md:gap-16 lg:gap-20 shadow-sm">
+          <div className="flex-shrink-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-60 lg:h-60 relative">
             <Image
               src={active?.image || ""}
               alt={active?.title || ""}
@@ -69,7 +69,7 @@ export default function VisionTabs() {
               className="object-contain"
             />
           </div>
-          <div className="text-gray-700 text-lg leading-relaxed sm:w-2/3">
+          <div className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed sm:w-2/3 text-center sm:text-left">
             {active?.content}
           </div>
         </div>

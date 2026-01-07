@@ -13,8 +13,8 @@ export const ImagesSlider = ({
   direction = "up",
 }: {
   images: string[];
-  children: React.ReactNode;
-  overlay?: React.ReactNode;
+  children?: React.ReactNode;
+  overlay?: boolean;
   overlayClassName?: string;
   className?: string;
   autoplay?: boolean;
@@ -108,7 +108,7 @@ export const ImagesSlider = ({
             animate="visible"
             exit={direction === "up" ? "upExit" : "downExit"}
             // variants={slideVariants}
-            className="image h-full w-full absolute inset-0 object-cover object-center"
+            className="image h-full w-full absolute inset-0 object-contain md:object-cover object-center"
           />
         </AnimatePresence>
       )}

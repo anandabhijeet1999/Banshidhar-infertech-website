@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { StickyScrollRevealDemo } from "@/components/StickyScrollRevealDemo";
 import Testimonials from "@/components/Testimonials";
+import { AnimatedTestimonialsDemo } from "@/components/AnimatedTestimonialsDemo";
 export default function AboutPage() {
   return (
     <>
@@ -18,9 +19,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-10 bg-white">
+      <section className="flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-12 lg:px-16 py-8 sm:py-10 bg-white">
         {/* Left: Image */}
-        <div className="relative w-full md:w-1/2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-lg mb-6 md:mb-0">
+        <div className="relative w-full md:w-1/2 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-lg mb-6 md:mb-0">
           <Image
             src="/assets/images/piling.png"
             alt="Heavy Machine"
@@ -31,27 +32,27 @@ export default function AboutPage() {
         </div>
 
         {/* Right: Content */}
-        <div className="w-full md:w-1/2 md:pl-10 text-gray-700">
-          <p className="text-sm uppercase tracking-widest text-gray-400 font-semibold mb-2">
+        <div className="w-full md:w-1/2 md:pl-6 lg:pl-10 text-gray-700">
+          <p className="text-xs sm:text-sm uppercase tracking-widest text-gray-400 font-semibold mb-2">
             — Welcome to Company
           </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-800 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-800 mb-4 sm:mb-6">
             Banshidhar Infratech
           </h2>
 
-          <p className="text-base leading-relaxed mb-4">
+          <p className="text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
             We like to introduce ourselves as an organization solely dedicated
             into rental service of medium to large sized heavy-duty hydraulic
             telescopic, crawler cranes and tower cranes with capacity ranging
             from 20 Ton to 450 Ton & boomlifts ranging from 40 Feet to 210 Feet.
           </p>
 
-          <p className="text-base leading-relaxed mb-4">
+          <p className="text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
             The company has a registered office in Patna having above 8 years
             of experience and more than 15 operational sites across India.
           </p>
 
-          <p className="text-base leading-relaxed">
+          <p className="text-sm sm:text-base leading-relaxed">
             The company provides crane rental services to major heavy industries
             in sectors like Power (Wind, Thermal, Hydro & Nuclear Energy),
             Cement, Steel Refinery and metro projects. Today, S L Infra is a
@@ -61,6 +62,7 @@ export default function AboutPage() {
       </section>
       <StickyScrollRevealDemo />
       <Testimonials/>
+      <AnimatedTestimonialsDemo/>
     </>
   );
 }
