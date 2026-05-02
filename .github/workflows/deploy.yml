@@ -28,13 +28,20 @@ jobs:
           NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: ${{ secrets.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID }}
           NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY }}
 
+      # Quick reachability check — proves the FTP server accepts connections
+      # from GitHub Actions runners (i.e. Hostinger isn't blocking the IP).
+      - name: Test FTP connectivity
+        run: |
+          echo "Testing reachability to 82.25.120.69:21..."
+          timeout 10 bash -c "</dev/tcp/82.25.120.69/21" && echo "✅ Port 21 is reachable" || (echo "❌ Cannot reach FTP server on port 21" && exit 1)
+
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+          server: 82.25.120.69
+          username: u556528303
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          server-dir: /public_html/
           local-dir: ./out/
           protocol: ftp
           port: 21
