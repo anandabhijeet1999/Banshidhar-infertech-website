@@ -1,107 +1,110 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import AnimatedSection from "@/components/anim/AnimatedSection";
+import { useAnimeStagger } from "@/lib/anime";
 
 interface Service {
   title: string;
   desc: string;
   img: string;
-  color: string;
+  href: string;
 }
 
 const services: Service[] = [
   {
     title: "Piling Foundation Services",
-    desc: "We provide an entire range of Pile Foundation Services keep innovating them based.....",
+    desc: "Full-spectrum pile foundation services tailored to soil conditions and load requirements.",
     img: "/assets/images/piling3.png",
-    color: "text-blue-900",
+    href: "/services/piling-foundation",
   },
   {
     title: "Piling Rig Rental Services",
-    desc: "We deliver your products around the globe as and wherever required. The quality we.....",
+    desc: "Premium hydraulic rotary piling rigs delivered with experienced operators.",
     img: "/assets/images/cnc.jpg",
-    color: "text-blue-900",
+    href: "/services/piling-rig-rental",
   },
   {
     title: "Boom Lift Rental Services",
-    desc: "We are the leading prominent boom lift on hire service provider in India. Also, We provide.....",
+    desc: "JLG boom lifts from 40 ft to 210 ft for safe access at height.",
     img: "/assets/images/boomlift.jpg",
-    color: "text-blue-900",
+    href: "/services/boom-lift",
   },
   {
     title: "Piling Rig Contractor",
-    desc: "We deal in providing the service of Piling Contractors Services on hire and on a rental basis. Our organization has.....",
+    desc: "Turnkey piling contractor services with single-point project accountability.",
     img: "/assets/images/pil-cont.jpg",
-    color: "text-blue-900",
+    href: "/services/piling-contractor",
   },
 ];
 
 export default function OurServices() {
+  const cardsRef = useAnimeStagger<HTMLDivElement>(
+    "[data-os-card]",
+    { opacity: [0, 1], translateY: [40, 0], duration: 700 },
+    140
+  );
+
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-      {/* Heading */}
-      <div className="text-center mb-10 px-4">
-        <p className="uppercase text-gray-500 tracking-wide text-xs sm:text-sm">
-          — Services we&apos;re offering
-        </p>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-900 mt-2">
-          Our Services
-        </h2>
-      </div>
+    <section className="relative py-16 sm:py-20 bg-gradient-to-b from-[var(--c-surface-2)] to-white">
+      <div className="absolute inset-0 gradient-mesh-soft pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-4">
+        <AnimatedSection className="text-center mb-10 sm:mb-14">
+          <span className="eyebrow">Services we&apos;re offering</span>
+          <h2 className="t-h1 text-[var(--c-primary)] mt-3">Our Services</h2>
+          <p className="body-lg max-w-2xl mx-auto mt-3">
+            From foundation engineering to elevated-access rentals — engineered execution
+            backed by 8+ years of operational experience.
+          </p>
+        </AnimatedSection>
 
-      {/* Cards */}
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {services.map((service, index) => (
-          <div
-            key={index}
-            className="group bg-white rounded-lg shadow-md 
-                       hover:shadow-xl transition-all duration-300 
-                       overflow-hidden"
-          >
-            {/* Image */}
-            <div className="relative h-48 sm:h-56 w-full">
-              <Image
-                src={service.img}
-                alt={service.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-
-            {/* Content */}
-            <div className="p-4 sm:p-5 flex flex-col justify-between min-h-[180px] sm:h-48">
-              {/* Title */}
-              <h3
-                className={`text-base sm:text-lg font-bold 
-                ${service.color} 
-                group-hover:text-red-600 
-                transition-colors duration-300`}
+        <div
+          ref={cardsRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+        >
+          {services.map((service, index) => (
+            <div
+              key={index}
+              data-os-card
+              style={{ opacity: 0, transform: "translateY(40px)" }}
+            >
+              <Link
+                href={service.href}
+                className="group relative block h-full bg-white rounded-[var(--r-lg)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-pop)] transition-all duration-500 overflow-hidden border border-[var(--c-line)] hover:-translate-y-2"
               >
-                {service.title}
-              </h3>
+                <div className="relative h-48 sm:h-56 w-full overflow-hidden">
+                  <Image
+                    src={service.img}
+                    alt={service.title}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                </div>
 
-              {/* Description */}
-              <p
-                className="text-gray-600 text-xs sm:text-sm mt-2 mb-4
-                           group-hover:text-red-600 
-                           transition-colors duration-300"
-              >
-                {service.desc}
-              </p>
-
-              {/* Icon */}
-              <ArrowRight
-                size={18}
-                className={`${service.color} 
-                            group-hover:text-red-600 
-                            transition-colors duration-300 
-                            sm:w-5 sm:h-5`}
-              />
+                <div className="p-5 sm:p-6 flex flex-col">
+                  <h3 className="t-h3 text-[var(--c-primary)] group-hover:text-[var(--c-accent)] transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-[var(--c-muted)] mt-2 mb-4">
+                    {service.desc}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] group-hover:text-[var(--c-accent)] transition-colors mt-auto">
+                    Learn more
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+                </div>
+              </Link>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 interface ProjectCardProps {
   image: string;
@@ -19,45 +20,40 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   date = { day: "27", month: "MAY" },
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
-      
-      {/* Image Section */}
-      <div className="relative h-[160px] sm:h-[200px] md:h-[220px]">
+    <div className="group bg-white rounded-[var(--r-md)] border border-[var(--c-line)] shadow-[var(--shadow-soft)] overflow-hidden hover:shadow-[var(--shadow-pop)] hover:-translate-y-1 transition-all duration-500">
+      <div className="relative h-[180px] sm:h-[220px] overflow-hidden">
         <Image
           src={image}
           alt={company}
           fill
-          className="object-cover  transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
-
-        {/* Date Badge */}
-        <div className="absolute bottom-3 right-3 bg-white text-blue-800 text-xs font-semibold px-3 py-2 text-center shadow">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute bottom-3 right-3 bg-white text-[var(--c-primary)] text-xs font-bold px-3 py-2 text-center shadow rounded-md">
           <div>{date.day}</div>
-          <div>{date.month}</div>
+          <div className="text-[10px] tracking-wider">{date.month}</div>
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-5">
-        <h3 className="text-lg font-bold text-blue-900">
+        <h3 className="t-h3 text-[var(--c-primary)] group-hover:text-[var(--c-accent)] transition-colors">
           {company}
         </h3>
-
-        <h4 className="font-semibold mt-2">
+        <h4 className="font-semibold mt-2 text-sm uppercase tracking-wider text-[var(--c-muted)]">
           Project Details
         </h4>
-
-        <ul className="text-gray-600 text-sm mt-2 space-y-1">
+        <ul className="text-[var(--c-ink-2)] text-sm mt-2 space-y-1">
           <li>• Location: {location}</li>
           <li>• {equipment}</li>
         </ul>
-
         <button
           type="button"
-          className="mt-4 text-blue-800 font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+          className="mt-4 inline-flex items-center gap-2 text-[var(--c-primary)] font-semibold text-sm hover:text-[var(--c-accent)] transition-colors"
         >
-          <span className="w-4 h-[2px] bg-blue-800"></span>
-          READ MORE
+          Read More
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
     </div>

@@ -1,12 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: "export",
   images: {
-    loader: 'custom',
-    loaderFile: './my-loader.ts',
+    // Static export: serve images directly without Next/Image optimization.
+    unoptimized: true,
   },
-  /* config options here */
 };
 
 export default nextConfig;

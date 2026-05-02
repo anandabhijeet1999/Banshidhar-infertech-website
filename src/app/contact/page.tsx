@@ -1,7 +1,12 @@
 "use client";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Phone, Mail, MapPin, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import AnimatedSection from "@/components/anim/AnimatedSection";
+import AnimatedText from "@/components/anim/AnimatedText";
+import LazyMap from "@/components/anim/LazyMap";
+import { useAnimeStagger, prefersReducedMotion, EASE_OUT } from "@/lib/anime";
 
 export default function ContactPage() {
   const [equipment, setEquipment] = useState("");
@@ -10,7 +15,38 @@ export default function ContactPage() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState<null | { type: "success" | "error"; msg: string }>(null);
+  const [status, setStatus] = useState<
+    null | { type: "success" | "error"; msg: string }
+  >(null);
+
+  const formRef = useAnimeStagger<HTMLFormElement>(
+    "[data-field]",
+    { opacity: [0, 1], translateX: [-30, 0], duration: 500 },
+    80
+  );
+  const statusRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const node = statusRef.current;
+    if (!node || !status) return;
+    if (prefersReducedMotion()) {
+      node.style.opacity = "1";
+      return;
+    }
+    let cancelled = false;
+    import("animejs").then(({ animate }) => {
+      if (cancelled || !statusRef.current) return;
+      animate(statusRef.current, {
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 350,
+        ease: EASE_OUT,
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [status]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,16 +71,8 @@ export default function ContactPage() {
       await emailjs.send(
         serviceId,
         templateId,
-        {
-          equipment,
-          name,
-          email,
-          phone,
-          message,
-        },
-        {
-          publicKey,
-        }
+        { equipment, name, email, phone, message },
+        { publicKey }
       );
 
       setStatus({ type: "success", msg: "Your message has been sent successfully." });
@@ -66,189 +94,239 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="relative w-full h-auto flex flex-col items-center justify-center text-center bg-white">
-        {/* Image Section */}
-        <div className="w-full relative h-[300px] md:h-[400px]">
+      {/* Banner */}
+      <section className="relative w-full overflow-hidden">
+        <div className="relative h-[220px] sm:h-[300px] md:h-[400px]">
           <Image
             src="/assets/images/contact.jpg"
-            alt="contact page "
+            alt="Contact Banshidhar Infratech"
             fill
+            sizes="100vw"
             className="object-cover object-[50%_30%]"
             priority
           />
+          <div className="absolute inset-0 gradient-mesh opacity-90 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b1240]/85 via-[#1A237E]/70 to-black/60 flex flex-col items-center justify-center text-center px-4">
+            <span className="eyebrow bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+              Get in touch
+            </span>
+            <AnimatedText
+              text="Contact Us"
+              as="h1"
+              className="t-display text-white"
+              effect="blur"
+              immediate
+              staggerMs={70}
+            />
+          </div>
         </div>
       </section>
-      <div className="bg-gray-100 py-8 px-4">
-        {/* Header Section */}
 
-        {/* Content Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Form Section */}
-          <div className="bg-white p-6">
-            <p className="text-sm md:text-base w-full text-black ">
-              At <strong>Banshidhar Infratech</strong>, new talent,
-              associations, and partnerships are always welcomed. We appreciate
-              the interest potential clients show in our business and are ready
-              to forge new and fruitful relations with them at any point in
-              time.
+      {/* Office Details */}
+      <section className="bg-[var(--c-surface-2)] py-12 sm:py-16 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <AnimatedSection className="text-center mb-10">
+            <span className="eyebrow">We&apos;re here to help</span>
+            <h2 className="t-h1 text-[var(--c-primary)] mt-3">Reach Our Offices</h2>
+            <p className="body-lg max-w-2xl mx-auto mt-3">
+              Talk to our team about your project — partnerships, rentals, or contractor
+              services. We respond within one business day.
             </p>
-            <h3 className="text-lg font-bold text-green-700 mb-4 mt-16">
-              LEAVE YOUR QUERY HERE
-            </h3>
-            <p className="text-red-600">Error: Contact form not found.</p>
-          </div>
+          </AnimatedSection>
 
-          {/* Contact Details */}
-          <div>
-            {/* Corporate Office */}
-            <div className="bg-white p-6   mb-4">
-              <h4 className="text-lg font-semibold text-green-700 mb-2">
-                CORPORATE OFFICE
-              </h4>
-              <p className="text-gray-700 text-sm">
-                <strong>Banshidhar Infratech</strong>
-                <br />
-                Station Road, Gurudwara Gali, Opposite Budha Park, Patna —
-                800001
-                <br />
-                <strong>Phone:</strong> +91 - 9431067101
-                <br />
-                <strong>Email:</strong>{" "}
-                <a
-                  href="mailto:enquiry@banshidharinfratech.com"
-                  className="text-blue-600"
-                >
-                  enquiry@banshidharinfratech.com
-                </a>
-                <br />
-                <strong>Website:</strong>{" "}
-                <a
-                  href="https://www.banshidharinfratech.com"
-                  className="text-blue-600"
-                >
-                  www.banshidharinfratech.com
-                </a>
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <AnimatedSection direction="left">
+              <div className="glass-card h-full p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-[var(--c-primary-soft)]">
+                    <MapPin className="w-5 h-5 text-[var(--c-primary)]" />
+                  </div>
+                  <h4 className="text-lg font-bold text-[var(--c-primary)]">
+                    Corporate Office
+                  </h4>
+                </div>
+                <p className="text-[var(--c-ink-2)] text-sm sm:text-base leading-relaxed">
+                  <strong className="text-[var(--c-primary)]">Banshidhar Infratech</strong>
+                  <br />
+                  Station Road, Gurudwara Gali, Opposite Budha Park, Patna — 800001
+                </p>
+                <div className="mt-4 space-y-2 text-sm">
+                  <a
+                    href="tel:+919431067101"
+                    className="flex items-center gap-2 text-[var(--c-ink-2)] hover:text-[var(--c-accent)] transition-colors"
+                  >
+                    <Phone className="w-4 h-4" />
+                    +91 9431067101
+                  </a>
+                  <a
+                    href="mailto:enquiry@banshidharinfratech.com"
+                    className="flex items-center gap-2 text-[var(--c-ink-2)] hover:text-[var(--c-accent)] transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    enquiry@banshidharinfratech.com
+                  </a>
+                </div>
+              </div>
+            </AnimatedSection>
 
-            {/* Registered Office */}
-            <div className="bg-white p-6 ">
-              <h4 className="text-lg font-semibold text-green-700 mb-2">
-                REGISTERED OFFICE
-              </h4>
-              <p className="text-gray-700 text-sm">
-                <strong>Banshidhar Infratech</strong>
-                <br />
-                BARHI TOLA , ISOPUR , PHULWARISHARIF , PATNA – 801505, BIHAR ,
-                India
-                <br />
-                <strong>Phone:</strong> +91 – 6202557765
-                <br />
-                <strong>Email:</strong>{" "}
-                <a
-                  href="mailto:banshidharinfratech@gmail.com"
-                  className="text-blue-600"
-                >
-                  banshidharinfratech@gmail.com
-                </a>
-                <br />
-                <strong>Website:</strong>{" "}
-                <a
-                  href="https://www.banshidharinfratech.com"
-                  className="text-blue-600"
-                >
-                  www.banshidharinfratech.com
-                </a>
-              </p>
-            </div>
+            <AnimatedSection direction="right">
+              <div className="glass-card h-full p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-[var(--c-accent-soft)]">
+                    <MapPin className="w-5 h-5 text-[var(--c-accent)]" />
+                  </div>
+                  <h4 className="text-lg font-bold text-[var(--c-primary)]">
+                    Registered Office
+                  </h4>
+                </div>
+                <p className="text-[var(--c-ink-2)] text-sm sm:text-base leading-relaxed">
+                  <strong className="text-[var(--c-primary)]">Banshidhar Infratech</strong>
+                  <br />
+                  Barhi Tola, Isopur, Phulwarisharif, Patna — 801505, Bihar, India
+                </p>
+                <div className="mt-4 space-y-2 text-sm">
+                  <a
+                    href="tel:+916202557765"
+                    className="flex items-center gap-2 text-[var(--c-ink-2)] hover:text-[var(--c-accent)] transition-colors"
+                  >
+                    <Phone className="w-4 h-4" />
+                    +91 6202557765
+                  </a>
+                  <a
+                    href="mailto:banshidharinfratech@gmail.com"
+                    className="flex items-center gap-2 text-[var(--c-ink-2)] hover:text-[var(--c-accent)] transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    banshidharinfratech@gmail.com
+                  </a>
+                </div>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6 md:p-10">
-          {/* Heading */}
-          <h2 className="text-center text-3xl md:text-4xl font-bold text-blue-900 mb-6">
-            Feel Free to Contact
-          </h2>
+      {/* Form */}
+      <section className="bg-white py-14 sm:py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <AnimatedSection className="text-center mb-10">
+            <span className="eyebrow">Drop us a line</span>
+            <h2 className="t-h1 text-[var(--c-primary)] mt-3">Feel Free to Contact</h2>
+          </AnimatedSection>
 
-          {status && (
-            <p
-              className={`mb-4 text-center text-sm ${
-                status.type === "success" ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {status.msg}
-            </p>
-          )}
+          <AnimatedSection>
+            <div className="relative bg-white rounded-[var(--r-lg)] shadow-[var(--shadow-soft)] border border-[var(--c-line)] p-6 sm:p-10 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 t-h1 bg-gradient-to-r from-[var(--c-primary)] via-[var(--c-primary-2)] to-[var(--c-accent)]" />
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <select
+                  data-field
+                  style={{ opacity: 0, transform: "translateX(-30px)" }}
+                  className="w-full border border-[var(--c-line)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)] transition-shadow"
+                  value={equipment}
+                  onChange={(e) => setEquipment(e.target.value)}
+                >
+                  <option value="">Please choose service</option>
+                  <option value="Equipment Rental Service">Equipment Rental Service</option>
+                  <option value="Piling Rig Contractor">Piling Rig Contractor</option>
+                  <option value="Piling Foundation Services">
+                    Piling Foundation Services
+                  </option>
+                  <option value="Boom Lift Rental">Boom Lift Rental</option>
+                </select>
 
-          <form onSubmit={handleSubmit}>
-            {/* Dropdown */}
-            <select
-              className="w-full border rounded-md p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-900"
-              value={equipment}
-              onChange={(e) => setEquipment(e.target.value)}
-            >
-              <option value="">Please Choose Equipment</option>
-              <option value="Equipment Rental Service">Equipment Rental Service</option>
-              <option value="Piling Rig Contractor">Piling Rig Contractor</option>
-            </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    data-field
+                    style={{ opacity: 0, transform: "translateX(-30px)" }}
+                    type="text"
+                    placeholder="Your Name"
+                    className="border border-[var(--c-line)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)]"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <input
+                    data-field
+                    style={{ opacity: 0, transform: "translateX(-30px)" }}
+                    type="email"
+                    placeholder="Email Address"
+                    className="border border-[var(--c-line)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)]"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
 
-            {/* Inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-900"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-900"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+                <input
+                  data-field
+                  style={{ opacity: 0, transform: "translateX(-30px)" }}
+                  type="tel"
+                  placeholder="Phone Number"
+                  className="w-full border border-[var(--c-line)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)]"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+
+                <textarea
+                  data-field
+                  style={{ opacity: 0, transform: "translateX(-30px)" }}
+                  placeholder="Write a message…"
+                  className="w-full border border-[var(--c-line)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)] resize-none"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={4}
+                />
+
+                <div data-field style={{ opacity: 0, transform: "translateX(-30px)" }}>
+                  <button
+                    type="submit"
+                    className="btn-glow w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
+                  >
+                    <Send className="w-4 h-4" />
+                    {isSubmitting ? "Sending…" : "Send a Message"}
+                  </button>
+                </div>
+
+                {status && (
+                  <div
+                    ref={statusRef}
+                    style={{ opacity: 0 }}
+                    className={`flex items-center gap-2 p-3 rounded-md text-sm font-medium ${
+                      status.type === "success"
+                        ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                        : "bg-red-50 text-red-700 border border-red-200"
+                    }`}
+                  >
+                    {status.type === "success" ? (
+                      <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    )}
+                    {status.msg}
+                  </div>
+                )}
+              </form>
             </div>
-
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              className="w-full border rounded-md p-3 mt-4 focus:outline-none focus:ring-2 focus:ring-blue-900"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-
-            {/* Message */}
-            <textarea
-              placeholder="Write Message"
-              className="w-full border rounded-md p-3 mt-4 focus:outline-none focus:ring-2 focus:ring-blue-900"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={4}
-            />
-
-            {/* Button */}
-            <button
-              type="submit"
-              className="w-full mt-6 bg-blue-900 text-white py-3 rounded-md font-semibold hover:bg-red-800 transition disabled:opacity-60 disabled:cursor-not-allowed"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Sending..." : "SEND A MESSAGE"}
-            </button>
-          </form>
+          </AnimatedSection>
         </div>
-      </div>
-      <div className="mt-4">
-        <div className="w-full h-[300px] md:h-[500px] rounded-lg overflow-hidden shadow-md">
-          <iframe
-            src="https://www.google.com/maps?q=Patna%20Bihar&output=embed"
-            className="w-full h-full border-0"
-            loading="lazy"
-          />
+      </section>
+
+      {/* Map */}
+      <section className="bg-[var(--c-surface-2)] py-10 sm:py-14 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <AnimatedSection className="text-center mb-8">
+            <span className="eyebrow">Visit our location</span>
+            <h2 className="t-h2 text-[var(--c-primary)] mt-3">Find Us</h2>
+          </AnimatedSection>
+          <AnimatedSection>
+            <LazyMap
+              src="https://www.google.com/maps?q=25.5870,85.0870&z=15&output=embed"
+              title="Banshidhar Infratech location"
+              height="500px"
+              className="rounded-[var(--r-lg)] shadow-[var(--shadow-soft)]"
+            />
+          </AnimatedSection>
         </div>
-      </div>
+      </section>
     </>
   );
 }

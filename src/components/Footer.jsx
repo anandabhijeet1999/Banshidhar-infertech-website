@@ -1,145 +1,144 @@
 "use client";
-import { useState, useEffect } from "react";
-import { FaFacebookF, FaInstagram, FaTwitter, FaPinterest } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ChevronUp } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false);
+  const buttonRef = useRef(null);
 
-  // Show button when scrolled down 200px
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 200) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 200);
     };
-
-    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  // Scroll to top smoothly
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
+  // Subtle scale-bounce on the scroll-to-top button when it appears
+  useEffect(() => {
+    const node = buttonRef.current;
+    if (!node || !isVisible) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      node.style.opacity = "1";
+      node.style.transform = "scale(1)";
+      return;
+    }
+    let cancelled = false;
+    import("animejs").then(({ animate }) => {
+      if (cancelled || !buttonRef.current) return;
+      animate(buttonRef.current, {
+        opacity: [0, 1],
+        scale: [0.6, 1],
+        duration: 350,
+        ease: "outBack",
+      });
     });
+    return () => {
+      cancelled = true;
+    };
+  }, [isVisible]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="bg-[#111] text-white py-10 relative overflow-hidden">
-      {/* Dark Overlay */}
+    <footer className="relative overflow-hidden text-white">
+      {/* Background */}
+      <div className="absolute inset-0 gradient-mesh" />
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 opacity-15 mix-blend-overlay"
         style={{
           backgroundImage: "url('/assets/images/site-footer-mape.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
-      ></div>
+      />
+      <div className="absolute inset-0 bg-black/60" />
 
-      {/* Optional Dark Overlay */}
-      <div className="absolute inset-0 bg-black/80"></div>
-
-      {/* Main Footer Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 flex flex-wrap justify-between gap-6 sm:gap-8 md:gap-10">
-        {/* Logo & Social Icons */}
-        <div className="flex flex-col items-center md:items-start space-y-4 sm:space-y-6 w-full md:w-auto">
-          {/* Logo */}
-          <img
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pt-14 pb-10">
+        {/* Logo & Social */}
+        <div className="flex flex-col items-center sm:items-start space-y-5">
+          <Image
             src="/assets/icons/logo.png"
-            alt="Banshidhar "
-            className="w-28 sm:w-32 md:w-36"
+            alt="Banshidhar Infratech"
+            width={144}
+            height={86}
+            loading="lazy"
+            className="w-32 sm:w-36 h-auto"
           />
-
-          {/* Social Icons */}
-          <div className="flex space-x-4">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-orange-500 p-3 rounded-full transition-colors duration-300"
-            >
-              <FaInstagram className="fab fa-instagram text-lg"></FaInstagram>
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-orange-500 p-3 rounded-full transition-colors duration-300"
-            >
-              <FaTwitter className="fab fa-twitter text-lg"></FaTwitter>
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-orange-500 p-3 rounded-full transition-colors duration-300"
-            >
-              <FaFacebookF className="fab fa-facebook-f text-lg"></FaFacebookF>
-            </a>
-            <a
-              href="https://pinterest.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-orange-500 p-3 rounded-full transition-colors duration-300"
-            >
-              <FaPinterest className="fab fa-pinterest text-lg"></FaPinterest>
-            </a>
+          <p className="text-sm text-white/70 max-w-xs text-center sm:text-left">
+            Engineered foundations and premium equipment rentals — pan-India operations
+            since 2017.
+          </p>
+          <div className="flex space-x-3">
+            {[
+              { icon: FaInstagram, href: "https://www.instagram.com/banshidharinfratech/" },
+              { icon: FaTwitter, href: "https://twitter.com" },
+              { icon: FaFacebookF, href: "https://www.facebook.com/profile.php?id=61583334338545" },
+              { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/banshidhar-infratech/?viewAsMember=true" },
+            ].map(({ icon: Icon, href }, i) => (
+              <a
+                key={i}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Social link"
+                className="w-10 h-10 grid place-items-center rounded-full bg-white/10 hover:bg-[var(--c-accent)] backdrop-blur-sm border border-white/15 transition-all duration-300 hover:-translate-y-1"
+              >
+                <Icon className="text-base" />
+              </a>
+            ))}
           </div>
         </div>
 
         {/* Links */}
-        <div className="w-full sm:w-auto text-center md:text-left">
-          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Links</h2>
-          <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-            <li>
-              <a href="#" className="hover:text-red-500">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-red-500">
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-red-500">
-                Equipments
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-red-500">
-                Projects
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-red-500">
-                Contact Us
-              </a>
-            </li>
+        <div className="text-center sm:text-left">
+          <h2 className="text-base font-bold uppercase tracking-wider mb-4 text-white">
+            Quick Links
+          </h2>
+          <ul className="space-y-2.5 text-sm text-white/75">
+            {[
+              { href: "/about", label: "About Us" },
+              { href: "/services", label: "Services" },
+              { href: "/equipments", label: "Equipments" },
+              { href: "/projects", label: "Projects" },
+              { href: "/contact", label: "Contact Us" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="hover:text-[var(--c-accent-2)] transition-colors inline-flex items-center gap-2"
+                >
+                  <span className="w-1 h-1 rounded-full bg-[var(--c-accent)]" />
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Contact */}
-        <div className="w-full sm:w-auto text-center md:text-left">
-          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contact</h2>
-          <ul className="space-y-2 sm:space-y-3 text-gray-300 text-sm sm:text-base">
+        <div className="text-center sm:text-left">
+          <h2 className="text-base font-bold uppercase tracking-wider mb-4">Contact</h2>
+          <ul className="space-y-3 text-sm text-white/75">
             <li>
-              📞{" "}
               <a
                 href="tel:+916202557765"
-                className="text-white font-semibold hover:underline"
+                className="hover:text-[var(--c-accent-2)] transition-colors"
               >
-                +91 6202557765
+                📞 +91 6202557765
               </a>
             </li>
             <li>
-              ✉️{" "}
               <a
                 href="mailto:enquiry@banshidharinfratech.com"
-                className="hover:text-red-500"
+                className="hover:text-[var(--c-accent-2)] transition-colors break-all"
               >
-                enquiry@banshidharinfratech.com
+                ✉ enquiry@banshidharinfratech.com
               </a>
             </li>
             <li>
@@ -151,35 +150,48 @@ export default function Footer() {
         </div>
 
         {/* Services */}
-        <div className="w-full sm:w-auto text-center md:text-left">
-          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Services</h2>
-          <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-            <li>Piling Foundation Services</li>
-            <li>Piling Rig Rental Services</li>
-            <li>Boom Lift Rental Services</li>
-            <li>Piling Contractor</li>
+        <div className="text-center sm:text-left">
+          <h2 className="text-base font-bold uppercase tracking-wider mb-4">Services</h2>
+          <ul className="space-y-2.5 text-sm text-white/75">
+            {[
+              { href: "/services/piling-foundation", label: "Piling Foundation" },
+              { href: "/services/piling-rig-rental", label: "Piling Rig Rental" },
+              { href: "/services/boom-lift", label: "Boom Lift Rental" },
+              { href: "/services/piling-contractor", label: "Piling Contractor" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="hover:text-[var(--c-accent-2)] transition-colors inline-flex items-center gap-2"
+                >
+                  <span className="w-1 h-1 rounded-full bg-[var(--c-accent)]" />
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
-      {/* Footer Bottom Line */}
-      <div className="relative z-10 w-full justify-center items-center text-center text-gray-400 mt-10 border-t border-gray-700 pt-4 px-4 flex flex-col md:flex-row md:justify-center gap-2">
-        <p className="text-sm md:text-base">
+      <div className="relative z-10 container mx-auto px-4 border-t border-white/10 py-5 text-center">
+        <p className="text-sm text-white/65">
           © {new Date().getFullYear()} All rights reserved by{" "}
-          <span className="text-red-400 font-semibold">
+          <span className="text-[var(--c-accent-2)] font-semibold">
             Banshidhar Infratech
           </span>
         </p>
       </div>
 
-      {/* Scroll to Top Button */}
       {isVisible && (
-        <div
+        <button
+          ref={buttonRef}
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-red-600 text-white text-xl sm:text-2xl rounded-full shadow-lg hover:bg-red-700 cursor-pointer transition-all duration-300 z-50"
+          aria-label="Scroll to top"
+          style={{ opacity: 0 }}
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 grid place-items-center rounded-full bg-[var(--c-accent)] hover:bg-[var(--c-accent-2)] text-white shadow-[0_15px_30px_-10px_rgba(225,29,72,0.7)] cursor-pointer transition-colors duration-300 z-50"
         >
-          ↑
-        </div>
+          <ChevronUp className="w-5 h-5" />
+        </button>
       )}
     </footer>
   );

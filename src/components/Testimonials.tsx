@@ -9,19 +9,19 @@ import "swiper/css/pagination";
 export default function Testimonials() {
   const testimonials = [
     {
-      name: "Raj Dikshit",
+      name: "Er.Ravi Kumar",
       role: "Contractor",
       text: "I was very impressed by the company service. The team was professional, reliable, and dedicated to delivering high-quality results.",
       img: "/assets/images/user.png",
     },
     {
-      name: "Mrunalini Singh",
+      name: "Er.Anjani Kumar",
       role: "Contractor",
       text: "The company has exceeded our expectations. Their professionalism and commitment to quality are truly commendable.",
       img: "/assets/images/user.png",
     },
     {
-      name: "Aditya Verma",
+      name: "Er.Ranjay Kumar",
       role: "Project Manager",
       text: "Excellent experience! The communication, delivery, and overall work ethic were top-notch.",
       img: "/assets/images/user.png",

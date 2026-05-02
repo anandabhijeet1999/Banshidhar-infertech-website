@@ -9,7 +9,10 @@ export function ImagesSliderDemo() {
     "/assets/images/4.jpg",
   ];
   return (
-    <ImagesSlider className="h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[40rem]" images={images} overlay={false}>
-    </ImagesSlider>
+    <ImagesSlider
+      className="h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[40rem]"
+      images={images}
+      overlay={false}
+    />
   );
 }

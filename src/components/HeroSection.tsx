@@ -1,18 +1,53 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { prefersReducedMotion, EASE_OUT } from "@/lib/anime";
+import AnimatedSection from "@/components/anim/AnimatedSection";
+import AnimatedText from "@/components/anim/AnimatedText";
 
 export default function HeroSection() {
-  const [count, setCount] = useState(1);
   const [isBlue, setIsBlue] = useState(false);
+  const counterRef = useRef<HTMLSpanElement | null>(null);
 
-  // Counter
+  // Counter animation via Anime.js (in-view)
   useEffect(() => {
-    if (count >= 20) return;
-    const t = setInterval(() => setCount((p) => p + 1), 60);
-    return () => clearInterval(t);
-  }, [count]);
+    const node = counterRef.current;
+    if (!node) return;
+    if (prefersReducedMotion()) {
+      node.textContent = "20";
+      return;
+    }
+    let cancelled = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          import("animejs").then(({ animate }) => {
+            if (cancelled || !counterRef.current) return;
+            const obj = { v: 0 };
+            animate(obj, {
+              v: 20,
+              duration: 1600,
+              ease: EASE_OUT,
+              onUpdate: () => {
+                if (counterRef.current) {
+                  counterRef.current.textContent = String(Math.round(obj.v));
+                }
+              },
+            });
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(node);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, []);
 
   // Icon toggle
   useEffect(() => {
@@ -21,11 +56,11 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20 py-10 lg:py-20">
-      <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row items-center">
-
-        {/* 🔴 Red Vertical Strip */}
-        <div className="absolute left-0 top-0 h-full w-3 bg-red-600" />
+    <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-20">
+      <div className="absolute inset-0 gradient-mesh-soft pointer-events-none -z-10" />
+      <div className="relative bg-white rounded-[var(--r-lg)] shadow-[var(--shadow-soft)] overflow-hidden flex flex-col lg:flex-row items-center border border-[var(--c-line)]">
+        {/* Accent strip */}
+        <div className="absolute left-0 top-0 h-full w-1.5 bg-gradient-to-b from-[var(--c-accent)] to-[var(--c-primary)]" />
 
         {/* LEFT IMAGE */}
         <div className="relative w-full lg:w-1/2 h-[360px] sm:h-[420px] lg:h-[480px] flex justify-center">
@@ -33,68 +68,73 @@ export default function HeroSection() {
             src="/assets/images/pilingside11.png"
             alt="Heavy machinery"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-contain"
             priority
           />
 
-          {/* ✅ Floating Stats Card (Screenshot Style) */}
-          <div className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-white rounded-xl shadow-md p-4 flex items-center gap-4 z-10 max-w-[90%]">
-            <Image
-              src={
-                isBlue
-                  ? "/assets/icons/Inde.png"
-                  : "/assets/icons/sp.png"
-              }
-              alt="Industry Icon"
-              width={60}
-              height={60}
-              className="w-14 h-14 sm:w-16 sm:h-16 transition-all duration-500"
-            />
-
-            <div>
-              <p className="text-blue-900 font-bold text-xl">
-                {count}{" "}
-                <span className="text-gray-600 font-medium">
-                  Industry
-                </span>
-              </p>
-              <p className="text-gray-600 text-lg leading-tight">
-                Projects Completed
-              </p>
+          {/* Floating Stats Card */}
+          <AnimatedSection
+            delay={0.2}
+            direction="up"
+            className="absolute top-6 left-6 sm:top-10 sm:left-10 z-10 max-w-[90%]"
+          >
+            <div className="glass-card p-4 flex items-center gap-4">
+              <Image
+                src={isBlue ? "/assets/icons/Inde.png" : "/assets/icons/sp.png"}
+                alt="Industry Icon"
+                width={60}
+                height={60}
+                loading="lazy"
+                className="w-14 h-14 sm:w-16 sm:h-16 transition-all duration-500"
+              />
+              <div>
+                <p className="text-[var(--c-primary)] font-bold text-xl">
+                  <span ref={counterRef}>0</span>+{" "}
+                  <span className="text-[var(--c-muted)] font-medium">Industries</span>
+                </p>
+                <p className="text-[var(--c-muted)] text-base leading-tight">
+                  Projects Completed
+                </p>
+              </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
 
         {/* RIGHT CONTENT */}
         <div className="w-full lg:w-1/2 px-6 sm:px-10 py-8 lg:py-12 text-center lg:text-left space-y-5">
-          <h4 className="uppercase text-gray-500 tracking-wide">
-            — Welcome to company
-          </h4>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-4xl font-bold text-blue-900">
-            Banshidhar Infratech
-          </h1>
-
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-            We like to introduce ourselves as an organization solely dedicated
-            into Rental service of medium to large sized heavy-duty hydraulic
-            telescopic, Crawler Cranes and Tower Cranes with capacity ranging from
-            20 Ton to 450 Ton & Boomlifts ranging from 40 Feet to 210 Feet.
-          </p>
-
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-            The company has a registered office in Patna having above 8 years of
-            experience and more than 5 operational sites across India.
-          </p>
-
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-            The company provides crane rental services to major heavy industries
-            in sectors like Power, Cement, Steel Refinery, and Metro projects.
-            <b>
-              {" "}
-              Today, Banshidhar Infratech is a major player in heavy lift projects.
-            </b>
-          </p>
+          <AnimatedSection>
+            <span className="eyebrow">Welcome to the company</span>
+          </AnimatedSection>
+          <AnimatedText
+            text="Banshidhar Infratech"
+            as="h1"
+            className="t-h1 text-[var(--c-primary)]"
+            effect="fadeUp"
+            staggerMs={50}
+          />
+          <AnimatedSection delay={0.15}>
+            <p className="body-lg">
+              We are an organization solely dedicated to rental services for medium and
+              large heavy-duty hydraulic telescopic, crawler cranes, and tower cranes —
+              capacity 20T to 450T, plus boom lifts from 40 to 210 ft.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection delay={0.25}>
+            <p className="body-lg">
+              The company has a registered office in Patna, with 8+ years of experience
+              and 5+ operational sites across India.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection delay={0.35}>
+            <p className="body-lg">
+              We provide rental services to major heavy industries — Power, Cement,
+              Steel, Refinery, and Metro projects.{" "}
+              <strong className="text-[var(--c-primary)]">
+                Today, Banshidhar Infratech is a major player in heavy lift projects.
+              </strong>
+            </p>
+          </AnimatedSection>
         </div>
       </div>
     </section>

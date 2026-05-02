@@ -1,71 +1,81 @@
+"use client";
 import Image from "next/image";
+import AnimatedSection from "@/components/anim/AnimatedSection";
+import AnimatedText from "@/components/anim/AnimatedText";
 
 export default function EquipmentsPage() {
   return (
     <main className="relative bg-white">
-      {/* Top Banner */}
-      <section
-      className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center text-center bg-cover bg-center"
-      style={{
-        backgroundImage: "url('/assets/images/sanward-sa210.jpg')", // replace with your image path
-      }}
-    >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      {/* Banner */}
+      <section className="relative w-full overflow-hidden">
+        <div
+          className="relative h-[260px] md:h-[400px] flex items-center justify-center text-center bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/images/sanward-sa210.jpg')" }}
+        >
+          <div className="absolute inset-0 gradient-mesh opacity-90 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b1240]/85 via-[#1A237E]/70 to-black/60" />
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
+            <span className="eyebrow bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+              Our Fleet
+            </span>
+            <AnimatedText
+              text="Equipment Details"
+              as="h1"
+              className="t-display text-white mt-3"
+              effect="blur"
+              immediate
+              staggerMs={70}
+            />
+          </div>
+        </div>
+      </section>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">
-          Equipment Details
-        </h1>
-      </div>
-    </section>
-
-      {/* Equipment Sections */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 space-y-8 sm:space-y-12 md:space-y-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 space-y-12 sm:space-y-16">
         {equipmentItems.map((item, index) => (
-          <article
+          <AnimatedSection
             key={item.title + index}
-            className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center"
+            direction={index % 2 === 1 ? "right" : "left"}
+            delay={0.05}
           >
-            {/* Image */}
-            <div className={`${index % 2 === 1 ? "md:order-2" : ""}`}>
-              <div className="relative group bg-gray-100 rounded-xl shadow-xl overflow-hidden">
-                <Image
-                  src={item.imageSrc}
-                  width={1200}
-                  height={800}
-                  alt={item.imageAlt}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                  priority={index === 0}
-                />
-                {/* Hover Overlay */}
-                <div className="absolute inset-0  bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <article className="grid md:grid-cols-2 gap-6 sm:gap-10 items-center">
+              <div className={`${index % 2 === 1 ? "md:order-2" : ""}`}>
+                <div className="relative group bg-[var(--c-surface-2)] rounded-[var(--r-lg)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-pop)] overflow-hidden transition-shadow duration-500">
+                  <Image
+                    src={item.imageSrc}
+                    width={1200}
+                    height={800}
+                    alt={item.imageAlt}
+                    loading={index === 0 ? undefined : "lazy"}
+                    priority={index === 0}
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Specs */}
-            <div className={`${index % 2 === 1 ? "md:order-1" : ""}`}>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#1E237E] mb-3 sm:mb-4 uppercase">
-                {item.title}
-              </h2>
-              <dl className="space-y-2 sm:space-y-3">
-                {item.specs.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-12 gap-2">
-                    <dt className="col-span-6 md:col-span-5 font-semibold text-gray-800 text-sm sm:text-base">
-                      {spec.label}
-                    </dt>
-                    <dd className="col-span-6 md:col-span-7 text-[#D91F26] font-semibold text-sm sm:text-base">
-                      {spec.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </article>
+              <div className={`${index % 2 === 1 ? "md:order-1" : ""}`}>
+                <h2 className="t-h2 text-[var(--c-primary)] mb-4 uppercase tracking-wide">
+                  {item.title}
+                </h2>
+                <dl className="space-y-3">
+                  {item.specs.map((spec) => (
+                    <div
+                      key={spec.label}
+                      className="grid grid-cols-12 gap-2 pb-2 border-b border-[var(--c-line)]"
+                    >
+                      <dt className="col-span-6 md:col-span-5 font-semibold text-[var(--c-ink-2)] text-sm sm:text-base">
+                        {spec.label}
+                      </dt>
+                      <dd className="col-span-6 md:col-span-7 text-[var(--c-accent)] font-semibold text-sm sm:text-base">
+                        {spec.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          </AnimatedSection>
         ))}
 
-        {/* Enquiry anchor target */}
         <div id="enquiry" className="pt-4" />
       </section>
     </main>
@@ -82,96 +92,96 @@ type EquipmentItem = {
 
 const equipmentItems: EquipmentItem[] = [
   {
-    title: "PILING RIGS",
+    title: "Piling Rigs — MAIT HR180",
     imageSrc: "/assets/images/eq1.jpg",
-    imageAlt: "Sanny SR215 piling rig",
+    imageAlt: "MAIT HR180 piling rig",
     specs: [
-      { label: "Name:", value: "MAIT" },
-      { label: "Model:", value: "HR180" },
-      { label: "TORQUE KN.m:", value: "180" },
+      { label: "Name", value: "MAIT" },
+      { label: "Model", value: "HR180" },
+      { label: "Torque", value: "180 KN.m" },
     ],
   },
   {
-    title: "PILING RIGS",
+    title: "Piling Rigs — Sunward SA210",
     imageSrc: "/assets/images/eq2.jpg",
-    imageAlt: "Sanny SR215 piling rig",
+    imageAlt: "Sunward SA210 piling rig",
     specs: [
-      { label: "Name:", value: "SUNWARD" },
-      { label: "Model:", value: "SA210" },
-      { label: "TORQUE KN.m:", value: "205" },
+      { label: "Name", value: "SUNWARD" },
+      { label: "Model", value: "SA210" },
+      { label: "Torque", value: "205 KN.m" },
     ],
   },
   {
-    title: "Boomlift Machine",
+    title: "Boomlift — JLG 1200SJP",
     imageSrc: "/assets/images/eq3.jpg",
-    imageAlt: "JLG boomlift",
+    imageAlt: "JLG 1200SJP boomlift",
     specs: [
-      { label: "Name:", value: "JLG" },
-      { label: "Model:", value: "1200SJP" },
-      { label: "TORQUE KN.m:", value: "120 Feet" },
+      { label: "Name", value: "JLG" },
+      { label: "Model", value: "1200SJP" },
+      { label: "Reach", value: "120 Feet" },
     ],
   },
   {
-    title: "Piling Rig Machine",
+    title: "Piling Rig — Sunward SA210",
     imageSrc: "/assets/images/sanward-sa210.jpg",
     imageAlt: "Sunward SA210 piling rig",
     specs: [
-      { label: "Name:", value: "Sunward" },
-      { label: "Model:", value: "SA210" },
-      { label: "TORQUE KN.m:", value: "205Knm" },
-      { label: "Minimum Drilling Diameter:", value: "600mm" },
-      { label: "Maximum Drilling Diameter:", value: "2000mm" },
-      { label: "Availability:", value: "02 Nos" },
+      { label: "Name", value: "Sunward" },
+      { label: "Model", value: "SA210" },
+      { label: "Torque", value: "205 KN.m" },
+      { label: "Min. Drilling Diameter", value: "600 mm" },
+      { label: "Max. Drilling Diameter", value: "2000 mm" },
+      { label: "Availability", value: "02 Nos" },
     ],
   },
   {
-    title: "Piling Rig Machine",
+    title: "Piling Rig — Sanward SA250",
     imageSrc: "/assets/images/sanward-sa250.jpg",
     imageAlt: "Sanward SA250 piling rig",
     specs: [
-      { label: "Name:", value: "Sanward" },
-      { label: "Model:", value: "SA250" },
-      { label: "TORQUE KN.m:", value: "250Knm" },
-      { label: "Minimum Drilling Diameter:", value: "600mm" },
-      { label: "Maximum Drilling Diameter:", value: "2500mm" },
-      { label: "Availability:", value: "04 Nos" },
+      { label: "Name", value: "Sanward" },
+      { label: "Model", value: "SA250" },
+      { label: "Torque", value: "250 KN.m" },
+      { label: "Min. Drilling Diameter", value: "600 mm" },
+      { label: "Max. Drilling Diameter", value: "2500 mm" },
+      { label: "Availability", value: "04 Nos" },
     ],
   },
   {
-    title: "Piling Rig Machine",
+    title: "Piling Rig — Sanny SR185",
     imageSrc: "/assets/images/sanny-sr215.jpg",
     imageAlt: "Sanny SR185 piling rig",
     specs: [
-      { label: "Name:", value: "Sanny" },
-      { label: "Model:", value: "SR185" },
-      { label: "TORQUE KN.m:", value: "185Knm" },
-      { label: "Minimum Drilling Diameter:", value: "600mm" },
-      { label: "Maximum Drilling Diameter:", value: "2000mm" },
-      { label: "Availability:", value: "02 Nos" },
+      { label: "Name", value: "Sanny" },
+      { label: "Model", value: "SR185" },
+      { label: "Torque", value: "185 KN.m" },
+      { label: "Min. Drilling Diameter", value: "600 mm" },
+      { label: "Max. Drilling Diameter", value: "2000 mm" },
+      { label: "Availability", value: "02 Nos" },
     ],
   },
   {
-    title: "Piling Rig Machine",
+    title: "Piling Rig — Sanny SR215",
     imageSrc: "/assets/images/sanny-sr215.jpg",
     imageAlt: "Sanny SR215 piling rig",
     specs: [
-      { label: "Name:", value: "Sanny" },
-      { label: "Model:", value: "SR215" },
-      { label: "TORQUE KN.m:", value: "215Knm" },
-      { label: "Minimum Drilling Diameter:", value: "600mm" },
-      { label: "Maximum Drilling Diameter:", value: "2000mm" },
-      { label: "Availability:", value: "02 Nos" },
+      { label: "Name", value: "Sanny" },
+      { label: "Model", value: "SR215" },
+      { label: "Torque", value: "215 KN.m" },
+      { label: "Min. Drilling Diameter", value: "600 mm" },
+      { label: "Max. Drilling Diameter", value: "2000 mm" },
+      { label: "Availability", value: "02 Nos" },
     ],
   },
   {
-    title: "Boomlift",
+    title: "Boomlift — JLG",
     imageSrc: "/assets/images/boomlift-jlg.jpg",
     imageAlt: "JLG Boomlift",
     specs: [
-      { label: "Name:", value: "JLG" },
-      { label: "Minimum Height:", value: "80 FT" },
-      { label: "Maximum Height:", value: "250 FT" },
-      { label: "Availability:", value: "50 Nos" },
+      { label: "Name", value: "JLG" },
+      { label: "Min. Height", value: "80 ft" },
+      { label: "Max. Height", value: "250 ft" },
+      { label: "Availability", value: "50 Nos" },
     ],
   },
 ];

@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import DottedMap from "dotted-map";
-
-import { useTheme } from "next-themes";
+import { prefersReducedMotion, EASE_OUT } from "@/lib/anime";
 
 interface MapProps {
   dots?: Array<{
@@ -14,26 +12,24 @@ interface MapProps {
   lineColor?: string;
 }
 
-export function WorldMap({
-  dots = [],
-  lineColor = "#0ea5e9",
-}: MapProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
+export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const tooltipRef = useRef<SVGGElement | null>(null);
   const [hoveredPoint, setHoveredPoint] = useState<{
     x: number;
     y: number;
     label: string;
   } | null>(null);
 
-  const { theme } = useTheme();
-
-  const svgMap = map.getSVG({
-    radius: 0.22,
-    color: theme === "dark" ? "#FFFFFF40" : "#00000040",
-    shape: "circle",
-    backgroundColor: theme === "dark" ? "black" : "white",
-  });
+  const svgMap = useMemo(() => {
+    const map = new DottedMap({ height: 100, grid: "diagonal" });
+    return map.getSVG({
+      radius: 0.22,
+      color: "#00000040",
+      shape: "circle",
+      backgroundColor: "white",
+    });
+  }, []);
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);
@@ -50,8 +46,80 @@ export function WorldMap({
     return `M ${start.x} ${start.y} Q ${midX} ${midY} ${end.x} ${end.y}`;
   };
 
+  // Animate path drawing on mount via stroke-dashoffset
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const paths = svg.querySelectorAll<SVGPathElement>("[data-map-path]");
+    if (paths.length === 0) return;
+
+    if (prefersReducedMotion()) {
+      paths.forEach((p) => {
+        p.style.strokeDasharray = "none";
+        p.style.strokeDashoffset = "0";
+      });
+      return;
+    }
+
+    paths.forEach((p) => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = `${len}`;
+      p.style.strokeDashoffset = `${len}`;
+    });
+
+    let cancelled = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          import("animejs").then(({ animate, stagger }) => {
+            if (cancelled) return;
+            animate(Array.from(paths), {
+              strokeDashoffset: 0,
+              duration: 1100,
+              ease: EASE_OUT,
+              delay: stagger(420),
+            });
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(svg);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, [dots.length]);
+
+  // Animate tooltip in/out on hover
+  useEffect(() => {
+    const tooltip = tooltipRef.current;
+    if (!tooltip || !hoveredPoint) return;
+    if (prefersReducedMotion()) {
+      tooltip.style.opacity = "1";
+      return;
+    }
+    let cancelled = false;
+    import("animejs").then(({ animate }) => {
+      if (cancelled || !tooltipRef.current) return;
+      animate(tooltipRef.current, {
+        opacity: [0, 1],
+        scale: [0.85, 1],
+        duration: 180,
+        ease: EASE_OUT,
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [hoveredPoint]);
+
   return (
-    <div className="w-full aspect-[2/1] dark:bg-black bg-white rounded-lg  relative font-sans">
+    <div className="w-full aspect-[2/1] dark:bg-black bg-white rounded-lg relative font-sans">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
@@ -59,6 +127,7 @@ export function WorldMap({
         alt="world map"
         height="495"
         width="1056"
+        loading="lazy"
         draggable={false}
       />
       <svg
@@ -72,25 +141,14 @@ export function WorldMap({
           const endPoint = projectPoint(dot.end.lat, dot.end.lng);
           return (
             <g key={`path-group-${i}`}>
-              <motion.path
+              <path
+                data-map-path
                 d={createCurvedPath(startPoint, endPoint)}
                 fill="none"
                 stroke="url(#path-gradient)"
                 strokeWidth="1"
-                initial={{
-                  pathLength: 0,
-                }}
-                animate={{
-                  pathLength: 1,
-                }}
-                transition={{
-                  duration: 1,
-                  delay: 0.5 * i,
-                  ease: "easeOut",
-                }}
-                key={`start-upper-${i}`}
                 style={{ pointerEvents: "none" }}
-              ></motion.path>
+              />
             </g>
           );
         })}
@@ -109,8 +167,8 @@ export function WorldMap({
           const endPoint = projectPoint(dot.end.lat, dot.end.lng);
           return (
             <g key={`points-group-${i}`}>
+              {/* Start dot */}
               <g key={`start-${i}`}>
-                {/* Visible circles */}
                 <circle
                   cx={startPoint.x}
                   cy={startPoint.y}
@@ -131,7 +189,6 @@ export function WorldMap({
                     from="2"
                     to="8"
                     dur="1.5s"
-                    begin="0s"
                     repeatCount="indefinite"
                   />
                   <animate
@@ -139,11 +196,9 @@ export function WorldMap({
                     from="0.5"
                     to="0"
                     dur="1.5s"
-                    begin="0s"
                     repeatCount="indefinite"
                   />
                 </circle>
-                {/* Interactive hover area */}
                 <circle
                   cx={startPoint.x}
                   cy={startPoint.y}
@@ -151,8 +206,7 @@ export function WorldMap({
                   fill="transparent"
                   className="cursor-pointer"
                   style={{ pointerEvents: "auto" }}
-                  onMouseEnter={(e) => {
-                    e.stopPropagation();
+                  onMouseEnter={() => {
                     if (dot.start.label) {
                       setHoveredPoint({
                         x: startPoint.x,
@@ -161,14 +215,11 @@ export function WorldMap({
                       });
                     }
                   }}
-                  onMouseLeave={(e) => {
-                    e.stopPropagation();
-                    setHoveredPoint(null);
-                  }}
+                  onMouseLeave={() => setHoveredPoint(null)}
                 />
               </g>
+              {/* End dot */}
               <g key={`end-${i}`}>
-                {/* Visible circles */}
                 <circle
                   cx={endPoint.x}
                   cy={endPoint.y}
@@ -189,7 +240,6 @@ export function WorldMap({
                     from="2"
                     to="8"
                     dur="1.5s"
-                    begin="0s"
                     repeatCount="indefinite"
                   />
                   <animate
@@ -197,11 +247,9 @@ export function WorldMap({
                     from="0.5"
                     to="0"
                     dur="1.5s"
-                    begin="0s"
                     repeatCount="indefinite"
                   />
                 </circle>
-                {/* Interactive hover area */}
                 <circle
                   cx={endPoint.x}
                   cy={endPoint.y}
@@ -209,8 +257,7 @@ export function WorldMap({
                   fill="transparent"
                   className="cursor-pointer"
                   style={{ pointerEvents: "auto" }}
-                  onMouseEnter={(e) => {
-                    e.stopPropagation();
+                  onMouseEnter={() => {
                     if (dot.end.label) {
                       setHoveredPoint({
                         x: endPoint.x,
@@ -219,50 +266,39 @@ export function WorldMap({
                       });
                     }
                   }}
-                  onMouseLeave={(e) => {
-                    e.stopPropagation();
-                    setHoveredPoint(null);
-                  }}
+                  onMouseLeave={() => setHoveredPoint(null)}
                 />
               </g>
             </g>
           );
         })}
-        
-        {/* Tooltip */}
+
         {hoveredPoint && (
-          <g style={{ pointerEvents: "none" }}>
-            <motion.rect
+          <g
+            ref={tooltipRef}
+            style={{ pointerEvents: "none", opacity: 0, transformOrigin: "center" }}
+          >
+            <rect
               x={hoveredPoint.x - Math.max(40, hoveredPoint.label.length * 5)}
               y={hoveredPoint.y - 40}
               width={Math.max(80, hoveredPoint.label.length * 10 + 20)}
               height="24"
               rx="6"
-              fill={theme === "dark" ? "#1f1f1f" : "#ffffff"}
+              fill="#ffffff"
               stroke={lineColor}
               strokeWidth="1.5"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.15 }}
-              style={{ 
-                filter: theme === "dark" 
-                  ? "drop-shadow(0 2px 8px rgba(255,255,255,0.1))" 
-                  : "drop-shadow(0 2px 8px rgba(0,0,0,0.15))"
-              }}
+              style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.15))" }}
             />
-            <motion.text
+            <text
               x={hoveredPoint.x}
               y={hoveredPoint.y - 24}
               textAnchor="middle"
-              fill={theme === "dark" ? "#ffffff" : "#000000"}
+              fill="#000000"
               fontSize="12"
               fontWeight="600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.15, delay: 0.05 }}
             >
               {hoveredPoint.label}
-            </motion.text>
+            </text>
           </g>
         )}
       </svg>
