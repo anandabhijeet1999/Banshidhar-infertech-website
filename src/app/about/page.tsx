@@ -27,21 +27,21 @@ const tabs = [
     title: "VISION",
     content:
       "We are committed to serving the interests of all our clients by establishing our position at the top within the country and being among the foremost companies across India in our core business through exceptional business ethics.",
-    image: "/assets/images/vis1.jpg",
+    image: "/assets/images/vis1.webp",
   },
   {
     id: "mission",
     title: "MISSION",
     content:
       "To provide our clients with the ability to complete projects in a safe, economical, timely and efficient manner while ensuring a consistently positive and professional experience.",
-    image: "/assets/images/vis2.jpg",
+    image: "/assets/images/vis2.webp",
   },
   {
     id: "quality",
     title: "QUALITY POLICY",
     content:
       "We delight our customers and exceed their expectations by providing maintenance-free Cranes, Boomlifts, Tower Cranes and prompt service.",
-    image: "/assets/images/vis3.jpg",
+    image: "/assets/images/vis3.webp",
   },
 ];
 
@@ -53,30 +53,30 @@ const whyChooseUs = [
 ];
 
 const team = [
-  { name: "Sushil Kumar Yadav", role: "Founder", img: "/assets/icons/yadav.jpeg" },
+  { name: "Sushil Kumar Yadav", role: "Founder", img: "/assets/icons/yadav.webp" },
   {
     name: "Er. Anjani Kumar",
     role: "Project Management Engineer",
-    img: "/assets/icons/Er.deepak.jpeg",
+    img: "/assets/icons/Er.deepak.webp",
   },
   {
     name: "Er. Ranjay Kumar",
     role: "Site Engineer",
-    img: "/assets/icons/Er.ranj.jpeg",
+    img: "/assets/icons/Er.ranj.webp",
   },
   {
     name: "Er. Rahul Kumar",
     role: "Engineering Lead",
-    img: "/assets/icons/Rahul.jpeg",
+    img: "/assets/icons/Rahul.webp",
   },
 ];
 
 const clients = [
-  "/assets/images/client1.jpg",
-  "/assets/images/client2.jpg",
-  "/assets/images/client3.jpg",
-  "/assets/images/client4.jpg",
-  "/assets/images/client5.jpg",
+  "/assets/images/client1.webp",
+  "/assets/images/client2.webp",
+  "/assets/images/client3.webp",
+  "/assets/images/client4.webp",
+  "/assets/images/client5.webp",
 ];
 
 const stats = [
@@ -180,7 +180,7 @@ export default function AboutPage() {
       <section className="relative w-full overflow-hidden">
         <div className="relative h-[220px] sm:h-[300px] md:h-[400px]">
           <Image
-            src="/assets/images/About.jpg"
+            src="/assets/images/About.webp"
             alt="About Banner"
             fill
             sizes="100vw"
@@ -205,7 +205,7 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12 px-4 sm:px-6 md:px-12 py-14 sm:py-20 bg-white">
         <AnimatedSection direction="left" className="relative w-full md:w-1/2 h-[300px] sm:h-[380px] md:h-[460px] rounded-[var(--r-lg)] overflow-hidden shadow-[var(--shadow-soft)] flex-shrink-0">
           <Image
-            src="/assets/images/piling.png"
+            src="/assets/images/piling.webp"
             alt="Piling Machine"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -324,7 +324,7 @@ export default function AboutPage() {
       {/* CTA + Why Choose Us */}
       <section
         className="relative w-full py-16 sm:py-24 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/images/cta-one-bg.jpg')" }}
+        style={{ backgroundImage: "url('/assets/images/cta-one-bg.webp')" }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-[#0b1240]/75 to-black/85" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">

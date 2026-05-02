@@ -12,7 +12,7 @@ const content = [
     content: (
       <div className="flex h-full w-full items-center justify-center text-white">
         <Image
-          src="/assets/images/vis1.jpg"
+          src="/assets/images/vis1.webp"
           width={300}
           height={300}
           className="h-full w-full object-cover"
@@ -28,7 +28,7 @@ const content = [
     content: (
       <div className="flex h-full w-full items-center justify-center text-white">
         <Image
-          src="/assets/images/vis2.jpg"
+          src="/assets/images/vis2.webp"
           width={300}
           height={300}
           className="h-full w-full object-cover"
@@ -44,7 +44,7 @@ const content = [
     content: (
       <div className="flex h-full w-full items-center justify-center text-white">
         <Image
-          src="/assets/images/vis3.jpg"
+          src="/assets/images/vis3.webp"
           width={300}
           height={300}
           className="h-full w-full object-cover"

@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { prefersReducedMotion, EASE_OUT } from "@/lib/anime";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -28,8 +27,15 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpenMobile, setServicesOpenMobile] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  // trailingSlash: true makes pathname like "/about/"; strip it so it matches link.href "/about"
+  const currentPath = pathname && pathname !== "/" ? pathname.replace(/\/$/, "") : "/";
+
+  // Defer pathname-driven active state until after hydration to avoid SSR/client mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Sticky shrink-on-scroll
   useEffect(() => {
@@ -38,32 +44,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Animate dropdown panel via Anime.js
-  useEffect(() => {
-    const panel = dropdownRef.current;
-    if (!panel) return;
-    if (prefersReducedMotion()) {
-      panel.style.opacity = isDropdownOpen ? "1" : "0";
-      panel.style.transform = "none";
-      panel.style.pointerEvents = isDropdownOpen ? "auto" : "none";
-      return;
-    }
-    let cancelled = false;
-    import("animejs").then(({ animate }) => {
-      if (cancelled || !dropdownRef.current) return;
-      animate(dropdownRef.current, {
-        opacity: isDropdownOpen ? [0, 1] : [1, 0],
-        translateY: isDropdownOpen ? [-8, 0] : [0, -8],
-        duration: 220,
-        ease: EASE_OUT,
-      });
-      dropdownRef.current.style.pointerEvents = isDropdownOpen ? "auto" : "none";
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [isDropdownOpen]);
 
   // Lock body scroll when mobile menu open
   useEffect(() => {
@@ -78,7 +58,7 @@ export default function Navbar() {
       "relative px-3 py-1.5 rounded-full text-sm xl:text-base font-medium transition-all duration-300",
       active
         ? "text-white bg-[var(--c-primary)] shadow-[0_8px_18px_-8px_rgba(46,63,183,0.6)]"
-        : "text-[var(--c-ink-2)] hover:text-[var(--c-primary)] hover:bg-[var(--c-primary-soft)]"
+        : "text-[var(--c-ink-2)] hover:text-white hover:bg-[var(--c-primary)] hover:shadow-[0_8px_18px_-8px_rgba(46,63,183,0.6)]"
     );
 
   return (
@@ -99,7 +79,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="Home">
           <Image
-            src="/assets/icons/logo.png"
+            src="/assets/icons/logo.webp"
             alt="Banshidhar Infratech"
             width={96}
             height={56}
@@ -114,9 +94,11 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-1 lg:gap-2">
           {navLinks.map((link) => {
-            const active = link.hasDropdown
-              ? pathname?.startsWith("/services") ?? false
-              : pathname === link.href;
+            const active =
+              mounted &&
+              (link.hasDropdown
+                ? currentPath.startsWith("/services")
+                : currentPath === link.href);
             if (link.hasDropdown) {
               return (
                 <li
@@ -137,9 +119,12 @@ export default function Navbar() {
                     </span>
                   </Link>
                   <div
-                    ref={dropdownRef}
-                    style={{ opacity: 0, pointerEvents: "none" }}
-                    className="absolute left-0 top-full pt-3 z-50"
+                    className={cn(
+                      "absolute left-0 top-full pt-3 z-50 transition-all duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none",
+                      isDropdownOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 -translate-y-2 pointer-events-none"
+                    )}
                   >
                     <div className="w-72 glass-card overflow-hidden">
                       {serviceDropdownItems.map((item, i) => (
@@ -215,7 +200,7 @@ export default function Navbar() {
                     <button
                       className={cn(
                         "w-full flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-colors",
-                        pathname?.startsWith("/services")
+                        mounted && currentPath.startsWith("/services")
                           ? "bg-[var(--c-primary)] text-white"
                           : "text-[var(--c-ink-2)] hover:bg-[var(--c-primary-soft)]"
                       )}
@@ -269,7 +254,7 @@ export default function Navbar() {
                   href={link.href}
                   className={cn(
                     "px-4 py-3 rounded-xl text-base font-medium transition-colors",
-                    pathname === link.href
+                    mounted && currentPath === link.href
                       ? "bg-[var(--c-primary)] text-white"
                       : "text-[var(--c-ink-2)] hover:bg-[var(--c-primary-soft)]"
                   )}

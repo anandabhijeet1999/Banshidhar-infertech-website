@@ -65,7 +65,7 @@ export default function HeroSection() {
         {/* LEFT IMAGE */}
         <div className="relative w-full lg:w-1/2 h-[360px] sm:h-[420px] lg:h-[480px] flex justify-center">
           <Image
-            src="/assets/images/pilingside11.png"
+            src="/assets/images/pilingside11.webp"
             alt="Heavy machinery"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -81,7 +81,7 @@ export default function HeroSection() {
           >
             <div className="glass-card p-4 flex items-center gap-4">
               <Image
-                src={isBlue ? "/assets/icons/Inde.png" : "/assets/icons/sp.png"}
+                src={isBlue ? "/assets/icons/Inde.webp" : "/assets/icons/sp.webp"}
                 alt="Industry Icon"
                 width={60}
                 height={60}

@@ -18,7 +18,7 @@ export default function ProjectsPage() {
       <section className="relative w-full overflow-hidden">
         <div className="relative h-[220px] sm:h-[300px] md:h-[400px]">
           <Image
-            src="/assets/images/Project.jpg"
+            src="/assets/images/Project.webp"
             alt="Projects"
             fill
             sizes="100vw"
@@ -57,7 +57,7 @@ export default function ProjectsPage() {
           >
             <div data-project style={{ opacity: 0, transform: "translateY(30px)" }}>
               <ProjectCard
-                image="/assets/images/pro2.jpg"
+                image="/assets/images/pro2.webp"
                 company="Larsen & Toubro Limited, Construction"
                 location="Patna"
                 equipment="80 ft JLG Boomlift × 1"
@@ -65,7 +65,7 @@ export default function ProjectsPage() {
             </div>
             <div data-project style={{ opacity: 0, transform: "translateY(30px)" }}>
               <ProjectCard
-                image="/assets/images/pro3.jpg"
+                image="/assets/images/pro3.webp"
                 company="Earthcon Services & Trading Pvt. Ltd."
                 location="Nepal"
                 equipment="125 ft JLG Boomlift × 1"
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
             </div>
             <div data-project style={{ opacity: 0, transform: "translateY(30px)" }}>
               <ProjectCard
-                image="/assets/images/cnc.jpg"
+                image="/assets/images/cnc.webp"
                 company="Ess Technofabs Pvt. Ltd."
                 location="Bhubaneswar, Odisha"
                 equipment="150 ft JLG Boomlift × 1"

@@ -10,7 +10,7 @@ export default function EquipmentsPage() {
       <section className="relative w-full overflow-hidden">
         <div
           className="relative h-[260px] md:h-[400px] flex items-center justify-center text-center bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/sanward-sa210.jpg')" }}
+          style={{ backgroundImage: "url('/assets/images/sanward-sa210.webp')" }}
         >
           <div className="absolute inset-0 gradient-mesh opacity-90 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0b1240]/85 via-[#1A237E]/70 to-black/60" />
@@ -93,7 +93,7 @@ type EquipmentItem = {
 const equipmentItems: EquipmentItem[] = [
   {
     title: "Piling Rigs — MAIT HR180",
-    imageSrc: "/assets/images/eq1.jpg",
+    imageSrc: "/assets/images/eq1.webp",
     imageAlt: "MAIT HR180 piling rig",
     specs: [
       { label: "Name", value: "MAIT" },
@@ -103,7 +103,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Piling Rigs — Sunward SA210",
-    imageSrc: "/assets/images/eq2.jpg",
+    imageSrc: "/assets/images/eq2.webp",
     imageAlt: "Sunward SA210 piling rig",
     specs: [
       { label: "Name", value: "SUNWARD" },
@@ -113,7 +113,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Boomlift — JLG 1200SJP",
-    imageSrc: "/assets/images/eq3.jpg",
+    imageSrc: "/assets/images/eq3.webp",
     imageAlt: "JLG 1200SJP boomlift",
     specs: [
       { label: "Name", value: "JLG" },
@@ -123,7 +123,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Piling Rig — Sunward SA210",
-    imageSrc: "/assets/images/sanward-sa210.jpg",
+    imageSrc: "/assets/images/sanward-sa210.webp",
     imageAlt: "Sunward SA210 piling rig",
     specs: [
       { label: "Name", value: "Sunward" },
@@ -136,7 +136,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Piling Rig — Sanward SA250",
-    imageSrc: "/assets/images/sanward-sa250.jpg",
+    imageSrc: "/assets/images/sanward-sa250.webp",
     imageAlt: "Sanward SA250 piling rig",
     specs: [
       { label: "Name", value: "Sanward" },
@@ -149,7 +149,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Piling Rig — Sanny SR185",
-    imageSrc: "/assets/images/sanny-sr215.jpg",
+    imageSrc: "/assets/images/sanny-sr215.webp",
     imageAlt: "Sanny SR185 piling rig",
     specs: [
       { label: "Name", value: "Sanny" },
@@ -162,7 +162,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Piling Rig — Sanny SR215",
-    imageSrc: "/assets/images/sanny-sr215.jpg",
+    imageSrc: "/assets/images/sanny-sr215.webp",
     imageAlt: "Sanny SR215 piling rig",
     specs: [
       { label: "Name", value: "Sanny" },
@@ -175,7 +175,7 @@ const equipmentItems: EquipmentItem[] = [
   },
   {
     title: "Boomlift — JLG",
-    imageSrc: "/assets/images/boomlift-jlg.jpg",
+    imageSrc: "/assets/images/boomlift-jlg.webp",
     imageAlt: "JLG Boomlift",
     specs: [
       { label: "Name", value: "JLG" },

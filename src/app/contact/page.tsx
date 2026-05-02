@@ -98,7 +98,7 @@ export default function ContactPage() {
       <section className="relative w-full overflow-hidden">
         <div className="relative h-[220px] sm:h-[300px] md:h-[400px]">
           <Image
-            src="/assets/images/contact.jpg"
+            src="/assets/images/contact.webp"
             alt="Contact Banshidhar Infratech"
             fill
             sizes="100vw"

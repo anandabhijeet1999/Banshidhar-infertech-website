@@ -16,15 +16,15 @@ interface Machine {
 }
 
 const machines: Machine[] = [
-  { image: "/assets/images/boomlift.jpg", name: "JLG 800AJ — 80 ft", details: "Boom Lift" },
-  { image: "/assets/images/mach12.jpg", name: "Piling Rig", details: "Heavy Machinery" },
+  { image: "/assets/images/boomlift.webp", name: "JLG 800AJ — 80 ft", details: "Boom Lift" },
+  { image: "/assets/images/mach12.webp", name: "Piling Rig", details: "Heavy Machinery" },
   {
-    image: "/assets/images/mach13.jpg",
+    image: "/assets/images/mach13.webp",
     name: "Construction Equipment",
     details: "Heavy Machinery",
   },
   {
-    image: "/assets/images/pili.png",
+    image: "/assets/images/pili.webp",
     name: "Piling Machine",
     details: "Foundation Equipment",
   },

@@ -25,7 +25,7 @@ export interface ServiceDetail {
 export const serviceDetails: Record<string, ServiceDetail> = {
   "piling-foundation": {
     title: "Piling Foundation Services",
-    bannerImg: "/assets/images/piling3.png",
+    bannerImg: "/assets/images/piling3.webp",
     intro:
       "We provide an entire range of Pile Foundation Services and keep innovating them based on the current market trend. Under reamed pilings are bored cast-in-situ concrete piles having one or more mechanically formed enlarged bases. These are best suited for foundations in all types of soil conditions. Banshidhar Infratech is one of the leading piling foundation service providers in India with operations across multiple states.",
     sections: [
@@ -35,7 +35,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "Pile foundations are deep foundation elements used to transfer loads from structures to stronger subsurface soil or rock layers. At Banshidhar Infratech, we specialize in designing and executing pile foundation solutions tailored to the specific requirements of each project. Our experienced engineers and state-of-the-art equipment ensure precision and reliability in every project we undertake.",
           "We offer comprehensive pile foundation services including site investigation, pile design, installation, and testing. Our team has successfully completed pile foundation projects for residential buildings, commercial complexes, industrial structures, bridges, and infrastructure projects across India.",
         ],
-        img: "/assets/images/piling3.png",
+        img: "/assets/images/piling3.webp",
         imgAlt: "Pile Foundation Work",
       },
       {
@@ -51,7 +51,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "Bored cast-in-situ piles are constructed by drilling a hole into the ground, inserting reinforcement cages, and filling it with concrete. This technique is suitable for sites with restricted access, low headroom conditions, and where vibration and noise need to be minimized. We utilize advanced boring rigs capable of handling various ground conditions.",
           "Our bored piling capabilities include pile diameters from 300mm to 2500mm and depths up to 30 meters depending on soil conditions. We employ bentonite stabilization, casing methods, and continuous flight auger (CFA) techniques as required by site conditions.",
         ],
-        img: "/assets/images/piling.png",
+        img: "/assets/images/piling.webp",
         imgAlt: "Bored Piling Machine",
       },
       {
@@ -106,7 +106,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
   },
   "piling-rig-rental": {
     title: "Piling Rig Rental Services",
-    bannerImg: "/assets/images/cnc.jpg",
+    bannerImg: "/assets/images/cnc.webp",
     intro:
       "We provide an extensive array of premium quality Hydraulic Rotary Piling Rigs on rental basis. Our fleet includes machines from leading manufacturers like Sanny, Sunward, and MAIT with torque capacities ranging from 180 KN.m to 250 KN.m. We deliver your equipment wherever required across India with quick mobilization and experienced operators.",
     sections: [
@@ -116,7 +116,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "Banshidhar Infratech offers top-of-the-line hydraulic rotary piling rigs for rent. Our machines are equipped with advanced hydraulic operator controls and loading sensors to ensure safe and efficient operations. Whether you need equipment for a small residential project or a large-scale infrastructure development, we have the right rig for your needs.",
           "All our piling rigs undergo regular maintenance and safety inspections to ensure optimal performance. Each rig comes with trained operators who have extensive experience in handling various soil conditions and project requirements.",
         ],
-        img: "/assets/images/cnc.jpg",
+        img: "/assets/images/cnc.webp",
         imgAlt: "Piling Rig Machine",
       },
       {
@@ -130,7 +130,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
         heading: "Piling Rig Specifications",
         content:
           "Our piling rigs are capable of handling various ground conditions including hard rock, sandy soil, clay, and mixed strata. The rigs feature kelly bar extensions for deep pile installations, powerful rotary drives for efficient drilling, and robust crawler undercarriages for stability on uneven terrain. We also provide auxiliary equipment including mud pumps, casing oscillators, and concrete tremie pipes.",
-        img: "/assets/images/sanny-sr215.jpg",
+        img: "/assets/images/sanny-sr215.webp",
         imgAlt: "Sanny SR215 Piling Rig",
       },
       {
@@ -180,7 +180,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
   },
   "boom-lift": {
     title: "Boom Lift Rental Services",
-    bannerImg: "/assets/images/boomlift.jpg",
+    bannerImg: "/assets/images/boomlift.webp",
     intro:
       "We are the leading prominent boom lift on hire service provider in India. We provide boom lifts ranging from 40 Feet to 210 Feet for various industrial and construction applications. Our machines provide safe access and a secure working platform for elevated positions. Banshidhar Infratech maintains a fleet of 50+ boom lifts ready for deployment across India.",
     sections: [
@@ -190,7 +190,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "Banshidhar Infratech is a premier boom lift rental service provider in India. Our extensive fleet includes JLG boom lifts ranging from 80 Feet to 250 Feet in height. These machines are ideal for construction, maintenance, painting, installation, and inspection work at elevated heights. We ensure all equipment meets the highest safety standards.",
           "Our boom lifts are available in both articulating and telescopic configurations to suit different job requirements. Articulating boom lifts provide excellent maneuverability around obstacles, while telescopic boom lifts offer maximum reach and working height.",
         ],
-        img: "/assets/images/boomlift.jpg",
+        img: "/assets/images/boomlift.webp",
         imgAlt: "JLG Boom Lift",
       },
       {
@@ -204,7 +204,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
         heading: "Industries We Serve",
         content:
           "Our boom lift rental services cater to a wide range of industries including Power (Wind, Thermal, Hydro & Nuclear Energy), Cement, Steel, Refinery, Metro Rail projects, and commercial construction. We provide safe and efficient access solutions for maintenance, construction, and inspection at height. Our experienced operators are trained in industry-specific safety protocols.",
-        img: "/assets/images/eq3.jpg",
+        img: "/assets/images/eq3.webp",
         imgAlt: "JLG Boomlift at work",
       },
       {
@@ -254,7 +254,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
   },
   "piling-contractor": {
     title: "Piling Rig Contractor",
-    bannerImg: "/assets/images/pil-cont.jpg",
+    bannerImg: "/assets/images/pil-cont.webp",
     intro:
       "We deal in providing the service of Piling Contractors Services on hire and on a rental basis. Our organization has established itself as a reliable piling contractor with over 8 years of experience and 15+ operational sites across India. We undertake turnkey piling projects from design to execution with complete project management support.",
     sections: [
@@ -264,7 +264,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "Banshidhar Infratech provides comprehensive piling contractor services for all types of construction projects. From initial site investigation to pile load testing, we handle every aspect of the piling process. Our team of experienced engineers ensures that each project is completed safely, on time, and within budget.",
           "As an established piling contractor, we bring extensive project management experience to every job. Our systematic approach includes detailed planning, resource allocation, quality control, and progress monitoring to ensure seamless project execution.",
         ],
-        img: "/assets/images/pil-cont.jpg",
+        img: "/assets/images/pil-cont.webp",
         imgAlt: "Piling Contractor at Work",
       },
       {
@@ -280,7 +280,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
           "We offer end-to-end piling solutions including site assessment, pile design, mobilization, installation, pile integrity testing, and load testing. Our turnkey approach ensures seamless project execution and single-point accountability. We have successfully completed projects for major companies like L&T, Earthcon Services, and Ess Technofabs.",
           "Our turnkey services also include preparation of method statements, quality assurance plans, safety plans, and environmental management plans. We maintain detailed records of all piling operations including boring logs, concrete pour records, and cage placement details.",
         ],
-        img: "/assets/images/piling.png",
+        img: "/assets/images/piling.webp",
         imgAlt: "Piling Work Site",
       },
       {

@@ -83,7 +83,7 @@ export default function Vide() {
 
   return (
     <section className="relative min-h-[80vh] md:min-h-screen text-white overflow-hidden">
-      <div className="relative w-full min-h-[80vh] md:min-h-screen flex flex-col md:flex-row items-center justify-between px-4 py-10 sm:px-6 md:p-10 bg-[url('/assets/images/baneq.jpg')] bg-cover bg-no-repeat bg-center">
+      <div className="relative w-full min-h-[80vh] md:min-h-screen flex flex-col md:flex-row items-center justify-between px-4 py-10 sm:px-6 md:p-10 bg-[url('/assets/images/baneq.webp')] bg-cover bg-no-repeat bg-center">
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-[#0b1240]/70 to-black/70" />
 
         {/* Left Content */}

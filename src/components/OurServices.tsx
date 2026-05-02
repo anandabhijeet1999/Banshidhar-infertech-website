@@ -17,25 +17,25 @@ const services: Service[] = [
   {
     title: "Piling Foundation Services",
     desc: "Full-spectrum pile foundation services tailored to soil conditions and load requirements.",
-    img: "/assets/images/piling3.png",
+    img: "/assets/images/piling3.webp",
     href: "/services/piling-foundation",
   },
   {
     title: "Piling Rig Rental Services",
     desc: "Premium hydraulic rotary piling rigs delivered with experienced operators.",
-    img: "/assets/images/cnc.jpg",
+    img: "/assets/images/cnc.webp",
     href: "/services/piling-rig-rental",
   },
   {
     title: "Boom Lift Rental Services",
     desc: "JLG boom lifts from 40 ft to 210 ft for safe access at height.",
-    img: "/assets/images/boomlift.jpg",
+    img: "/assets/images/boomlift.webp",
     href: "/services/boom-lift",
   },
   {
     title: "Piling Rig Contractor",
     desc: "Turnkey piling contractor services with single-point project accountability.",
-    img: "/assets/images/pil-cont.jpg",
+    img: "/assets/images/pil-cont.webp",
     href: "/services/piling-contractor",
   },
 ];

@@ -27,7 +27,7 @@ export default function ServicesPage() {
       <section className="relative w-full overflow-hidden">
         <div className="relative h-[200px] sm:h-[280px] md:h-[360px]">
           <Image
-            src="/assets/images/Serv.png"
+            src="/assets/images/Serv.webp"
             alt="Our Services"
             fill
             sizes="100vw"

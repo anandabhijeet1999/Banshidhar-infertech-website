@@ -18,21 +18,21 @@ const tabs: Tab[] = [
     title: "VISION",
     content:
       "We are committed to serve the interests of all our clients by being and establishing our position at the top within the country and be among the foremost companies across India in our core business through exceptional business ethics.",
-    image: "/assets/icons/slquality1.png",
+    image: "/assets/icons/slquality1.webp",
   },
   {
     id: "mission",
     title: "MISSION",
     content:
       "To provide our clients with the ability to complete projects in a safe, economical, timely and efficient manner while ensuring a consistently positive and professional experience.",
-    image: "/assets/images/vis2.jpg",
+    image: "/assets/images/vis2.webp",
   },
   {
     id: "quality",
     title: "QUALITY POLICY",
     content:
       "We delight our customers and exceed their expectations by providing maintenance-free Cranes, Boomlifts, Tower Cranes and prompt service.",
-    image: "/assets/icons/slquality.png",
+    image: "/assets/icons/slquality.webp",
   },
 ];
 

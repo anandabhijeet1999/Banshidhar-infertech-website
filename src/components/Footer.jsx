@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronUp } from "lucide-react";
@@ -7,7 +7,6 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/f
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false);
-  const buttonRef = useRef(null);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -16,30 +15,6 @@ export default function Footer() {
     window.addEventListener("scroll", toggleVisibility, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
-
-  // Subtle scale-bounce on the scroll-to-top button when it appears
-  useEffect(() => {
-    const node = buttonRef.current;
-    if (!node || !isVisible) return;
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      node.style.opacity = "1";
-      node.style.transform = "scale(1)";
-      return;
-    }
-    let cancelled = false;
-    import("animejs").then(({ animate }) => {
-      if (cancelled || !buttonRef.current) return;
-      animate(buttonRef.current, {
-        opacity: [0, 1],
-        scale: [0.6, 1],
-        duration: 350,
-        ease: "outBack",
-      });
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [isVisible]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -52,7 +27,7 @@ export default function Footer() {
       <div
         className="absolute inset-0 opacity-15 mix-blend-overlay"
         style={{
-          backgroundImage: "url('/assets/images/site-footer-mape.png')",
+          backgroundImage: "url('/assets/images/site-footer-mape.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -63,7 +38,7 @@ export default function Footer() {
         {/* Logo & Social */}
         <div className="flex flex-col items-center sm:items-start space-y-5">
           <Image
-            src="/assets/icons/logo.png"
+            src="/assets/icons/logo.webp"
             alt="Banshidhar Infratech"
             width={144}
             height={86}
@@ -184,11 +159,9 @@ export default function Footer() {
 
       {isVisible && (
         <button
-          ref={buttonRef}
           onClick={scrollToTop}
           aria-label="Scroll to top"
-          style={{ opacity: 0 }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 grid place-items-center rounded-full bg-[var(--c-accent)] hover:bg-[var(--c-accent-2)] text-white shadow-[0_15px_30px_-10px_rgba(225,29,72,0.7)] cursor-pointer transition-colors duration-300 z-50"
+          className="pop-in fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 grid place-items-center rounded-full bg-[var(--c-accent)] hover:bg-[var(--c-accent-2)] text-white shadow-[0_15px_30px_-10px_rgba(225,29,72,0.7)] cursor-pointer transition-colors duration-300 z-50"
         >
           <ChevronUp className="w-5 h-5" />
         </button>
